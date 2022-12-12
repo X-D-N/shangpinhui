@@ -1,28 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header/>
+    <!-- 展示路由组件 -->
+    <router-view></router-view>
+    <!-- 利用路由元信息确定footer是否展示 -->
+    <Footer v-if="$route.meta.show"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    Header, Footer
+  },
+  // 组件挂载完毕 可以向服务器发请求
+  mounted() {
+    // 优化：只会执行一次
+    // 通知vuex发请求，获取商品分类的三级列表数据 存储于仓库中
+    this.$store.dispatch('home/categoryList')
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
